@@ -1,0 +1,1555 @@
+<<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandoudou Élixirs & Bulles | Boissons Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Variables et reset - ADAPTATION ROUGE ET BLANC */
+        :root {
+            --primary: #d52b1e;  /* Rouge Haiti */
+            --secondary: #ffffff; /* Blanc */
+            --accent: #f8c300;   /* Jaune pour accents */
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #6c757d;
+            --success: #d52b1e;   /* Rouge pour succès */
+            --danger: #b30000;    /* Rouge foncé */
+            --warning: #ff6b6b;   /* Rouge clair */
+            --info: #d52b1e;      /* Rouge pour info */
+            --shadow: 0 4px 6px rgba(213, 43, 30, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .view-all:hover {
+            gap: 10px;
+            color: var(--danger);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #b32116;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: var(--dark);
+        }
+
+        /* Header - ADAPTATION ROUGE */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #b32116 100%);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 50px;
+            filter: brightness(0) invert(1);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            color: var(--secondary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+            color: var(--secondary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--secondary);
+            color: var(--primary);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+
+        /* Hero Section - ADAPTATION ROUGE */
+        .hero {
+            background: linear-gradient(rgba(213, 43, 30, 0.8), rgba(179, 33, 22, 0.9)), url('https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Products Section - ADAPTATION */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(213, 43, 30, 0.15);
+            border-color: var(--primary);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image i {
+            font-size: 4rem;
+            color: var(--primary);
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .product-content p {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .read-more:hover {
+            gap: 10px;
+            color: var(--danger);
+        }
+
+        /* Promotions Section - ADAPTATION */
+        .promo-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .promo-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .promo-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .promo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(213, 43, 30, 0.1);
+        }
+
+        .promo-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .promo-badge.special {
+            background: var(--primary);
+            color: white;
+        }
+
+        .promo-badge.new {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .product-highlight {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .product-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+        }
+
+        .product-icon i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .promo-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Categories Section - ADAPTATION */
+        .categories-table {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: rgba(213, 43, 30, 0.05);
+        }
+
+        .category-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-name i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Best Sellers */
+        .sellers-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .seller-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .seller-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(213, 43, 30, 0.1);
+        }
+
+        .seller-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .seller-position {
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .seller-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .seller-icon i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .seller-details h4 {
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .seller-details p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .seller-sales {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Stats Preview */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(213, 43, 30, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+        }
+
+        .top-seller-stat {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, #b32116 100%);
+            color: white;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin: 20px 0;
+            transition: var(--transition);
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .phone-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        /* Admin Section */
+        .admin-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .admin-login {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .admin-panel {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(213, 43, 30, 0.25);
+            outline: none;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-buttons .btn {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a, .footer-section ul li {
+            transition: var(--transition);
+        }
+
+        .footer-section ul li:hover a, .footer-section ul li:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--primary);
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 20px;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .promo-tabs {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 40px 0;
+            }
+            
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .products-grid, .promo-cards, .sellers-list, .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+               
+                <h1>SANDOUDOU <span>ÉLIXIRS</span></h1>
+            </div>
+            <nav>
+                <ul id="main-menu">
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="produits.html"><i class="fas fa-wine-bottle"></i> Produits</a></li>
+                    <li><a href="promotions.html"><i class="fas fa-tags"></i> Promotions</a></li>
+                    <li><a href="categories.html"><i class="fas fa-list"></i> Catégories</a></li>
+                    <li><a href="ventes.html"><i class="fas fa-chart-line"></i> Top Ventes</a></li>
+                    <li><a href="contact.html"><i class="fas fa-phone"></i> Contact</a></li>
+                    <li><a href="livraison.html"><i class="fas fa-truck"></i> Livraison</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-toggle" id="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Sandoudou Élixirs & Bulles</h2>
+                <p>Découvrez nos boissons premium entre Vaudreuil et Cap-Haïtien</p>
+                <div class="hero-buttons">
+                    <a href="produits.html" class="btn btn-primary">Voir Nos Produits</a>
+                    <a href="contact.html" class="btn btn-secondary">Commander Maintenant</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-star"></i> Produits Populaires</h2>
+                    <a href="produits.html" class="view-all">Tous les produits <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="products-grid" id="popular-products">
+                    <!-- Les produits populaires seront chargés dynamiquement ici -->
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="promo-tabs">
+                    <button class="tab-button active" data-tab="promotions">Promotions</button>
+                    <button class="tab-button" data-tab="nouveautes">Nouveautés</button>
+                </div>
+                
+                <div class="tab-content active" id="promotions">
+                    <div class="promo-cards" id="promo-products">
+                        <!-- Les produits en promotion seront chargés dynamiquement ici -->
+                    </div>
+                    <a href="promotions.html" class="view-all">Voir toutes les promotions <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="tab-content" id="nouveautes">
+                    <div class="promo-cards" id="new-products">
+                        <!-- Les nouveaux produits seront chargés dynamiquement ici -->
+                    </div>
+                    <a href="nouveautes.html" class="view-all">Voir toutes les nouveautés <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-list"></i> Nos Catégories</h2>
+                    <a href="categories.html" class="view-all">Toutes les catégories <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="categories-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Catégorie</th>
+                                <th>Produits</th>
+                                <th>Prix Moyen</th>
+                                <th>Disponibilité</th>
+                                <th>Popularité</th>
+                            </tr>
+                        </thead>
+                        <tbody id="categories-table">
+                            <!-- Les catégories seront chargées dynamiquement ici -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-crown"></i> Meilleures Ventes</h2>
+                    <a href="ventes.html" class="view-all">Tous les best-sellers <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="sellers-list" id="best-sellers">
+                    <!-- Les meilleures ventes seront chargées dynamiquement ici -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION ADMINISTRATION -->
+        <section class="section" id="admin-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title"><i class="fas fa-user-cog"></i> Administration</h2>
+                </div>
+                
+                <div class="admin-section">
+                    <div class="admin-login" id="admin-login">
+                        <h3>Accès Administrateur</h3>
+                        <p>Veuillez entrer le mot de passe pour accéder au panneau d'administration</p>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="admin-password" placeholder="Mot de passe admin">
+                        </div>
+                        <button class="btn btn-primary" id="login-btn">Se connecter</button>
+                    </div>
+                    
+                    <div class="admin-panel" id="admin-panel">
+                        <div class="section-header">
+                            <h3 class="section-title"><i class="fas fa-wine-bottle"></i> Gestion des Boissons</h3>
+                            <button class="btn btn-primary" id="add-drink-btn"><i class="fas fa-plus"></i> Ajouter une boisson</button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table id="drinks-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Catégorie</th>
+                                        <th>Prix</th>
+                                        <th>Disponibilité</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="drinks-list">
+                                    <!-- Les boissons seront ajoutées ici dynamiquement -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Notre Activité</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-value" id="total-orders">156</div>
+                        <div class="stat-label">Commandes ce mois</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value" id="clients">89</div>
+                        <div class="stat-label">Clients satisfaits</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stat-value" id="delivery-time">45</div>
+                        <div class="stat-label">Min. moyenne livraison</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-value" id="satisfaction">4.8</div>
+                        <div class="stat-label">/5 Satisfaction</div>
+                    </div>
+                </div>
+                <div class="top-seller-stat">
+                    <p><strong>Produit le plus vendu:</strong> <span id="top-seller">Rhum Barbancourt - 128 ventes ce mois</span></p>
+                </div>
+
+                <div class="contact-section">
+                    <h3>Commandez Maintenant</h3>
+                    <p>Livraison rapide à Vaudreuil et Cap-Haïtien</p>
+                    
+                    <a href="https://wa.me/50942298642" class="whatsapp-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        Commander sur WhatsApp
+                    </a>
+                    
+                    <div class="phone-number">
+                        <i class="fas fa-phone"></i> 4229-8642
+                    </div>
+                    
+                    <p>Appel ou SMS direct - Service client 7j/7</p>
+                </div>
+                
+                <a href="contact.html" class="view-all">Plus d'informations <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal pour ajouter/modifier une boisson -->
+    <div class="modal" id="drink-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Ajouter une boisson</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="drink-form">
+                <input type="hidden" id="drink-id">
+                <div class="form-group">
+                    <label for="drink-name">Nom de la boisson</label>
+                    <input type="text" class="form-control" id="drink-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="drink-category">Catégorie</label>
+                    <select class="form-control" id="drink-category" required>
+                        <option value="">Sélectionner une catégorie</option>
+                        <option value="Eaux gazeuses">Eaux gazeuses</option>
+                        <option value="Sodas">Sodas</option>
+                        <option value="Jus et boissons aux fruits">Jus et boissons aux fruits</option>
+                        <option value="Boissons énergisantes">Boissons énergisantes</option>
+                        <option value="Boissons alcoolisées">Boissons alcoolisées</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="drink-price">Prix (HTG)</label>
+                    <input type="number" class="form-control" id="drink-price" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="drink-availability">Disponibilité</label>
+                    <select class="form-control" id="drink-availability" required>
+                        <option value="En stock">En stock</option>
+                        <option value="Stock limité">Stock limité</option>
+                        <option value="Rupture">Rupture de stock</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="drink-description">Description</label>
+                    <textarea class="form-control" id="drink-description" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Annuler</button>
+                    <button type="submit" class="btn btn-primary" id="save-btn">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Sandoudou Élixirs</h4>
+                    <p>Votre distributeur premium de boissons entre Vaudreuil et Cap-Haïtien. Qualité et service garantis.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/50942298642" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Liens Rapides</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="produits.html">Produits</a></li>
+                        <li><a href="promotions.html">Promotions</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> contact@sandoudou.com</li>
+                        <li><i class="fas fa-phone"></i> 4229-8642</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Vaudreuil & Cap-Haïtien</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Informations</h4>
+                    <ul>
+                        <li><a href="#">Livraison</a></li>
+                        <li><a href="#">Paiement</a></li>
+                        <li><a href="#">Conditions générales</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Sandoudou Élixirs & Bulles. Tous droits réservés.</p>
+                <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Taux de conversion EUR vers HTG (Gourdes Haïtiennes)
+        const EUR_TO_HTG = 132;
+
+        // Fonction pour convertir les euros en gourdes
+        function convertToGourdes(euros) {
+            return Math.round(euros * EUR_TO_HTG);
+        }
+
+        // Fonction pour formater les prix en gourdes
+        function formatPrice(price) {
+            return `${price} HTG`;
+        }
+
+        // Données initiales des boissons (en euros mais affichées en gourdes)
+        let drinks = [
+            { id: 1, name: "Perrier", category: "Eaux gazeuses", price: convertToGourdes(2.50), availability: "En stock", description: "Eau gazeuse naturelle", popular: true, promo: false, new: false, bestSeller: false },
+            { id: 2, name: "Coca-Cola", category: "Sodas", price: convertToGourdes(1.80), availability: "En stock", description: "Soda cola classique", popular: true, promo: true, new: false, bestSeller: true },
+            { id: 3, name: "Jus d'Orange", category: "Jus et boissons aux fruits", price: convertToGourdes(3.20), availability: "En stock", description: "Jus d'orange 100% pur", popular: true, promo: false, new: false, bestSeller: false },
+            { id: 4, name: "Powerade", category: "Boissons énergisantes", price: convertToGourdes(2.00), availability: "Stock limité", description: "Boisson énergisante isotonique", popular: false, promo: true, new: false, bestSeller: false },
+            { id: 5, name: "Rhum Barbancourt", category: "Boissons alcoolisées", price: convertToGourdes(25.00), availability: "En stock", description: "Rhum haïtien premium", popular: true, promo: false, new: false, bestSeller: true },
+            { id: 6, name: "Champagne", category: "Boissons alcoolisées", price: convertToGourdes(45.00), availability: "En stock", description: "Champagne brut", popular: false, promo: true, new: true, bestSeller: false },
+            { id: 7, name: "Mojito Prêt-à-boire", category: "Boissons alcoolisées", price: convertToGourdes(8.00), availability: "En stock", description: "Cocktail mojito préparé", popular: false, promo: false, new: true, bestSeller: false }
+        ];
+
+        // Éléments DOM
+        const drinksList = document.getElementById('drinks-list');
+        const drinkModal = document.getElementById('drink-modal');
+        const drinkForm = document.getElementById('drink-form');
+        const modalTitle = document.getElementById('modal-title');
+        const addDrinkBtn = document.getElementById('add-drink-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const adminLogin = document.getElementById('admin-login');
+        const adminPanel = document.getElementById('admin-panel');
+        const loginBtn = document.getElementById('login-btn');
+        const adminPassword = document.getElementById('admin-password');
+
+        // Afficher les boissons dans le tableau d'administration
+        function displayDrinks() {
+            drinksList.innerHTML = '';
+            
+            drinks.forEach(drink => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${drink.name}</td>
+                    <td>${drink.category}</td>
+                    <td>${formatPrice(drink.price)}</td>
+                    <td>${drink.availability}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-warning edit-drink" data-id="${drink.id}"><i class="fas fa-edit"></i> Modifier</button>
+                        <button class="btn btn-danger delete-drink" data-id="${drink.id}"><i class="fas fa-trash"></i> Supprimer</button>
+                    </td>
+                `;
+                drinksList.appendChild(row);
+            });
+            
+            // Ajouter les écouteurs d'événements pour les boutons d'édition et de suppression
+            document.querySelectorAll('.edit-drink').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = parseInt(e.target.closest('.edit-drink').getAttribute('data-id'));
+                    editDrink(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-drink').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const id = parseInt(e.target.closest('.delete-drink').getAttribute('data-id'));
+                    deleteDrink(id);
+                });
+            });
+
+            // Mettre à jour l'affichage des produits sur la page d'accueil
+            updateHomepageProducts();
+        }
+
+        // Mettre à jour l'affichage des produits sur la page d'accueil
+        function updateHomepageProducts() {
+            // Produits populaires
+            const popularProducts = document.getElementById('popular-products');
+            popularProducts.innerHTML = '';
+            
+            const popularDrinks = drinks.filter(drink => drink.popular);
+            popularDrinks.forEach(drink => {
+                const productCard = createProductCard(drink);
+                popularProducts.appendChild(productCard);
+            });
+
+            // Produits en promotion
+            const promoProducts = document.getElementById('promo-products');
+            promoProducts.innerHTML = '';
+            
+            const promoDrinks = drinks.filter(drink => drink.promo);
+            promoDrinks.forEach(drink => {
+                const promoCard = createPromoCard(drink);
+                promoProducts.appendChild(promoCard);
+            });
+
+            // Nouveaux produits
+            const newProducts = document.getElementById('new-products');
+            newProducts.innerHTML = '';
+            
+            const newDrinks = drinks.filter(drink => drink.new);
+            newDrinks.forEach(drink => {
+                const promoCard = createPromoCard(drink, true);
+                newProducts.appendChild(promoCard);
+            });
+
+            // Meilleures ventes
+            const bestSellers = document.getElementById('best-sellers');
+            bestSellers.innerHTML = '';
+            
+            const bestSellerDrinks = drinks.filter(drink => drink.bestSeller);
+            bestSellerDrinks.forEach((drink, index) => {
+                const sellerCard = createSellerCard(drink, index + 1);
+                bestSellers.appendChild(sellerCard);
+            });
+
+            // Catégories
+            updateCategoriesTable();
+        }
+
+        // Créer une carte produit pour la section produits populaires
+        function createProductCard(drink) {
+            const card = document.createElement('article');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="product-image">
+                    <i class="fas fa-wine-bottle"></i>
+                </div>
+                <div class="product-content">
+                    <h4>${drink.name}</h4>
+                    <span class="product-price">${formatPrice(drink.price)}</span>
+                    <p>${drink.description}</p>
+                    <a href="#" class="read-more">Commander <i class="fas fa-arrow-right"></i></a>
+                </div>
+            `;
+            return card;
+        }
+
+        // Créer une carte promotion
+        function createPromoCard(drink, isNew = false) {
+            const card = document.createElement('div');
+            card.className = 'promo-card';
+            card.innerHTML = `
+                <div class="promo-badge ${isNew ? 'new' : 'special'}">${isNew ? 'Nouveau' : '-20%'}</div>
+                <div class="product-highlight">
+                    <div class="product-icon">
+                        <i class="fas fa-wine-bottle"></i>
+                        <span>${drink.category}</span>
+                    </div>
+                </div>
+                <h4>${drink.name}</h4>
+                <p>${drink.description}</p>
+                <div class="promo-info">
+                    <span class="promo-price">${formatPrice(drink.price)}</span>
+                    <span class="promo-date">${drink.availability}</span>
+                </div>
+            `;
+            return card;
+        }
+
+        // Créer une carte de meilleure vente
+        function createSellerCard(drink, position) {
+            const card = document.createElement('div');
+            card.className = 'seller-card';
+            card.innerHTML = `
+                <div class="seller-info">
+                    <div class="seller-position">${position}</div>
+                    <div class="seller-icon">
+                        <i class="fas fa-wine-bottle"></i>
+                    </div>
+                    <div class="seller-details">
+                        <h4>${drink.name}</h4>
+                        <p>${drink.category}</p>
+                    </div>
+                </div>
+                <div class="seller-sales">${Math.floor(Math.random() * 100) + 50} ventes</div>
+            `;
+            return card;
+        }
+
+        // Mettre à jour le tableau des catégories
+        function updateCategoriesTable() {
+            const categoriesTable = document.getElementById('categories-table');
+            categoriesTable.innerHTML = '';
+            
+            const categories = {};
+            drinks.forEach(drink => {
+                if (!categories[drink.category]) {
+                    categories[drink.category] = {
+                        count: 0,
+                        totalPrice: 0,
+                        availability: 'En stock'
+                    };
+                }
+                categories[drink.category].count++;
+                categories[drink.category].totalPrice += drink.price;
+            });
+            
+            for (const category in categories) {
+                const avgPrice = (categories[category].totalPrice / categories[category].count).toFixed(0);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="category-name">
+                        <i class="fas fa-wine-bottle"></i>
+                        ${category}
+                    </td>
+                    <td>${categories[category].count}</td>
+                    <td>${formatPrice(avgPrice)}</td>
+                    <td>${categories[category].availability}</td>
+                    <td>⭐️⭐️⭐️⭐️</td>
+                `;
+                categoriesTable.appendChild(row);
+            }
+        }
+
+        // Ouvrir le modal pour ajouter une boisson
+        function openAddModal() {
+            modalTitle.textContent = 'Ajouter une boisson';
+            drinkForm.reset();
+            document.getElementById('drink-id').value = '';
+            drinkModal.style.display = 'flex';
+        }
+
+        // Ouvrir le modal pour modifier une boisson
+        function editDrink(id) {
+            const drink = drinks.find(d => d.id === id);
+            if (drink) {
+                modalTitle.textContent = 'Modifier la boisson';
+                document.getElementById('drink-id').value = drink.id;
+                document.getElementById('drink-name').value = drink.name;
+                document.getElementById('drink-category').value = drink.category;
+                document.getElementById('drink-price').value = drink.price;
+                document.getElementById('drink-availability').value = drink.availability;
+                document.getElementById('drink-description').value = drink.description;
+                drinkModal.style.display = 'flex';
+            }
+        }
+
+        // Supprimer une boisson
+        function deleteDrink(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette boisson ?')) {
+                drinks = drinks.filter(d => d.id !== id);
+                displayDrinks();
+                // Ici, normalement, vous enverriez une requête au serveur pour supprimer la boisson
+            }
+        }
+
+        // Sauvegarder une boisson (ajouter ou modifier)
+        function saveDrink(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('drink-id').value;
+            const name = document.getElementById('drink-name').value;
+            const category = document.getElementById('drink-category').value;
+            const price = parseFloat(document.getElementById('drink-price').value);
+            const availability = document.getElementById('drink-availability').value;
+            const description = document.getElementById('drink-description').value;
+            
+            if (id) {
+                // Modification d'une boisson existante
+                const index = drinks.findIndex(d => d.id === parseInt(id));
+                if (index !== -1) {
+                    drinks[index] = { 
+                        ...drinks[index],
+                        name, 
+                        category, 
+                        price, 
+                        availability, 
+                        description 
+                    };
+                }
+            } else {
+                // Ajout d'une nouvelle boisson
+                const newId = drinks.length > 0 ? Math.max(...drinks.map(d => d.id)) + 1 : 1;
+                drinks.push({ 
+                    id: newId, 
+                    name, 
+                    category, 
+                    price, 
+                    availability, 
+                    description,
+                    popular: false,
+                    promo: false,
+                    new: true,
+                    bestSeller: false
+                });
+            }
+            
+            displayDrinks();
+            drinkModal.style.display = 'none';
+            
+            // Ici, normalement, vous enverriez une requête au serveur pour sauvegarder la boisson
+        }
+
+        // Fermer le modal
+        function closeModal() {
+            drinkModal.style.display = 'none';
+        }
+
+        // Connexion admin
+        function loginAdmin() {
+            const password = adminPassword.value;
+            // Mot de passe simple pour la démo - à changer en production
+            if (password === 'admin123') {
+                adminLogin.style.display = 'none';
+                adminPanel.style.display = 'block';
+            } else {
+                alert('Mot de passe incorrect');
+            }
+        }
+
+        // Événements
+        addDrinkBtn.addEventListener('click', openAddModal);
+        drinkForm.addEventListener('submit', saveDrink);
+        cancelBtn.addEventListener('click', closeModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        loginBtn.addEventListener('click', loginAdmin);
+        
+        // Fermer le modal en cliquant à l'extérieur
+        window.addEventListener('click', (e) => {
+            if (e.target === drinkModal) {
+                closeModal();
+            }
+        });
+
+        // Menu mobile
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            document.getElementById('main-menu').classList.toggle('show');
+        });
+
+        // Tabs pour les promotions
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Retirer la classe active de tous les boutons et contenus
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Ajouter la classe active au bouton cliqué
+                button.classList.add('active');
+                
+                // Afficher le contenu correspondant
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Animation des statistiques
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                if (id === 'satisfaction') {
+                    obj.innerHTML = (progress * (end - start) + start).toFixed(1);
+                } else {
+                    obj.innerHTML = Math.floor(progress * (end - start) + start);
+                }
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Lancer l'animation des statistiques au chargement
+        window.addEventListener('load', () => {
+            animateValue('total-orders', 0, 156, 2000);
+            animateValue('clients', 0, 89, 2000);
+            animateValue('delivery-time', 0, 45, 2000);
+            animateValue('satisfaction', 0, 4.8, 2000);
+            
+            // Initialiser l'affichage des boissons
+            displayDrinks();
+        });
+    </script>
+</body>
+</html>
