@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot EduBot - Assistant IA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --info-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-secondary: linear-gradient(135deg, #7209b7 0%, #560bad 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: var(--dark-color);
+        }
+        
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 40px);
+        }
+        
+        /* Header */
+        .header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .admin-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .admin-indicator {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: none;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--warning-color);
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Navigation */
+        .nav-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-tab {
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        /* Chat Container */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            max-width: 70%;
+            padding: 15px;
+            border-radius: 15px;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background: var(--gradient-primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .bot-message {
+            align-self: flex-start;
+            background: #f1f3f5;
+            color: var(--dark-color);
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .message-actions {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: none;
+            gap: 5px;
+        }
+        
+        .message:hover .message-actions {
+            display: flex;
+        }
+        
+        .action-btn {
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 0.8rem;
+        }
+        
+        .bot-message .action-btn {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--dark-color);
+        }
+        
+        .chat-input-container {
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            resize: none;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .send-btn {
+            padding: 15px 25px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .send-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Knowledge Base Panel */
+        .knowledge-panel {
+            width: 400px;
+            border-left: 1px solid #e9ecef;
+            background: #f8f9fa;
+            display: none;
+            flex-direction: column;
+        }
+        
+        .knowledge-header {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .knowledge-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .qa-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .qa-question {
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .qa-answer {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .qa-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        
+        .qa-form {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .knowledge-panel {
+                width: 100%;
+                border-left: none;
+                border-top: 1px solid #e9ecef;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+            
+            .nav-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+            
+            .nav-tab {
+                flex-shrink: 0;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .admin-controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>EduBot Assistant IA</h1>
+                        <p>Posez vos questions académiques</p>
+                    </div>
+                </div>
+                
+                <div class="admin-controls">
+                    <div class="admin-indicator" id="admin-indicator">
+                        <i class="fas fa-user-shield"></i> Mode Administrateur
+                    </div>
+                    <button class="btn btn-secondary" id="toggle-knowledge">
+                        <i class="fas fa-database"></i> Base de connaissances
+                    </button>
+                    <button class="btn btn-danger" id="admin-logout" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion Admin
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="nav-container">
+                <div class="nav-tabs">
+                    <a href="index.html" class="nav-tab">
+                        <i class="fas fa-home"></i> Accueil
+                    </a>
+                    <a href="quiz.html" class="nav-tab">
+                        <i class="fas fa-brain"></i> Quiz
+                    </a>
+                    <a href="exercises.html" class="nav-tab">
+                        <i class="fas fa-pen-fancy"></i> Exercices
+                    </a>
+                    <a href="formulas.html" class="nav-tab">
+                        <i class="fas fa-square-root-variable"></i> Formules
+                    </a>
+                    <a href="exam.html" class="nav-tab">
+                        <i class="fas fa-graduation-cap"></i> Examens
+                    </a>
+                    <a href="admin.html" class="nav-tab">
+                        <i class="fas fa-cog"></i> Administration
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Chat Interface -->
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2><i class="fas fa-comments"></i> Chat avec EduBot</h2>
+                    <div class="chat-info">
+                        <span id="connection-status">En ligne</span>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Messages will be added here dynamically -->
+                    <div class="message bot-message">
+                        <div class="message-content">
+                            Bonjour ! Je suis EduBot, votre assistant pédagogique. Comment puis-je vous aider aujourd'hui ?
+                        </div>
+                        <div class="message-time">10:00</div>
+                        <div class="message-actions">
+                            <button class="action-btn edit-btn" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete-btn" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <textarea class="chat-input" id="chat-input" placeholder="Tapez votre question ici..." rows="1"></textarea>
+                    <button class="send-btn" id="send-btn">
+                        <i class="fas fa-paper-plane"></i> Envoyer
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Knowledge Base Panel (Admin only) -->
+            <div class="knowledge-panel" id="knowledge-panel">
+                <div class="knowledge-header">
+                    <h3><i class="fas fa-database"></i> Base de connaissances</h3>
+                    <button class="btn btn-primary" id="add-qa-btn">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                
+                <div class="knowledge-content" id="knowledge-content">
+                    <!-- Q&A items will be added here dynamically -->
+                    <div class="qa-form" id="qa-form" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Question</label>
+                            <input type="text" class="form-input" id="new-question" placeholder="Entrez la question">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Réponse</label>
+                            <textarea class="form-textarea" id="new-answer" placeholder="Entrez la réponse"></textarea>
+                        </div>
+                        <div class="qa-actions">
+                            <button class="btn btn-secondary" id="cancel-qa">Annuler</button>
+                            <button class="btn btn-primary" id="save-qa">Sauvegarder</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Example Q&A items -->
+                    <div class="qa-item">
+                        <div class="qa-question">
+                            <span>Quelle est la formule de l'aire d'un cercle ?</span>
+                        </div>
+                        <div class="qa-answer">
+                            L'aire d'un cercle se calcule avec la formule A = π × r², où r est le rayon du cercle.
+                        </div>
+                        <div class="qa-actions">
+                            <button class="btn btn-secondary edit-qa">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn btn-danger delete-qa">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="qa-item">
+                        <div class="qa-question">
+                            <span>Comment résoudre une équation du second degré ?</span>
+                        </div>
+                        <div class="qa-answer">
+                            Pour résoudre une équation du second degré de la forme ax² + bx + c = 0, on utilise le discriminant Δ = b² - 4ac. Si Δ > 0, il y a deux solutions : x1 = (-b - √Δ)/(2a) et x2 = (-b + √Δ)/(2a).
+                        </div>
+                        <div class="qa-actions">
+                            <button class="btn btn-secondary edit-qa">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn btn-danger delete-qa">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Message Modal -->
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Modifier le message</h3>
+            <div class="form-group">
+                <textarea class="form-textarea" id="edit-message-content" rows="4"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancel-edit">Annuler</button>
+                <button class="btn btn-primary" id="save-edit">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div class="modal" id="admin-login-modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Connexion Administrateur</h3>
+            <div class="form-group">
+                <label class="form-label" for="admin-username">Nom d'utilisateur</label>
+                <input type="text" class="form-input" id="admin-username" placeholder="Entrez votre nom d'utilisateur">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="admin-password">Mot de passe</label>
+                <input type="password" class="form-input" id="admin-password" placeholder="Entrez votre mot de passe">
+            </div>
+            <button class="btn btn-primary" id="admin-login-btn" style="width: 100%;">
+                <i class="fas fa-sign-in-alt"></i> Se connecter
+            </button>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancel-admin-login">
+                    Annuler
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Éléments DOM
+            const chatMessages = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('send-btn');
+            const knowledgePanel = document.getElementById('knowledge-panel');
+            const toggleKnowledgeBtn = document.getElementById('toggle-knowledge');
+            const adminIndicator = document.getElementById('admin-indicator');
+            const adminLogoutBtn = document.getElementById('admin-logout');
+            const adminLoginModal = document.getElementById('admin-login-modal');
+            const adminLoginBtn = document.getElementById('admin-login-btn');
+            const cancelAdminLogin = document.getElementById('cancel-admin-login');
+            const adminUsername = document.getElementById('admin-username');
+            const adminPassword = document.getElementById('admin-password');
+            const addQaBtn = document.getElementById('add-qa-btn');
+            const qaForm = document.getElementById('qa-form');
+            const cancelQaBtn = document.getElementById('cancel-qa');
+            const saveQaBtn = document.getElementById('save-qa');
+            const editModal = document.getElementById('edit-modal');
+            const cancelEditBtn = document.getElementById('cancel-edit');
+            const saveEditBtn = document.getElementById('save-edit');
+            const editMessageContent = document.getElementById('edit-message-content');
+
+            // Variables
+            let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            let currentEditingMessage = null;
+            let currentEditingQa = null;
+            let knowledgeBase = JSON.parse(localStorage.getItem('knowledgeBase')) || [
+                {
+                    question: "Quelle est la formule de l'aire d'un cercle ?",
+                    answer: "L'aire d'un cercle se calcule avec la formule A = π × r², où r est le rayon du cercle."
+                },
+                {
+                    question: "Comment résoudre une équation du second degré ?",
+                    answer: "Pour résoudre une équation du second degré de la forme ax² + bx + c = 0, on utilise le discriminant Δ = b² - 4ac. Si Δ > 0, il y a deux solutions : x1 = (-b - √Δ)/(2a) et x2 = (-b + √Δ)/(2a)."
+                }
+            ];
+
+            // Informations de connexion administrateur
+            const adminCredentials = {
+                username: "admin",
+                password: "admin123"
+            };
+
+            // Initialisation
+            checkAdminStatus();
+            setupEventListeners();
+            loadKnowledgeBase();
+            autoResizeTextarea();
+
+            // Fonctions d'initialisation
+            function setupEventListeners() {
+                // Envoi de message
+                sendBtn.addEventListener('click', sendMessage);
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+
+                // Panel de connaissances
+                toggleKnowledgeBtn.addEventListener('click', toggleKnowledgePanel);
+
+                // Connexion administrateur
+                adminLogoutBtn.addEventListener('click', adminLogout);
+                adminLoginBtn.addEventListener('click', adminLogin);
+                cancelAdminLogin.addEventListener('click', hideAdminLoginModal);
+
+                // Gestion de la base de connaissances
+                addQaBtn.addEventListener('click', showQaForm);
+                cancelQaBtn.addEventListener('click', hideQaForm);
+                saveQaBtn.addEventListener('click', saveQa);
+
+                // Modal d'édition
+                cancelEditBtn.addEventListener('click', hideEditModal);
+                saveEditBtn.addEventListener('click', saveEditedMessage);
+
+                // Fermer les modals en cliquant à l'extérieur
+                adminLoginModal.addEventListener('click', function(e) {
+                    if (e.target === adminLoginModal) {
+                        hideAdminLoginModal();
+                    }
+                });
+                editModal.addEventListener('click', function(e) {
+                    if (e.target === editModal) {
+                        hideEditModal();
+                    }
+                });
+
+                // Auto-resize du textarea
+                chatInput.addEventListener('input', autoResizeTextarea);
+            }
+
+            function autoResizeTextarea() {
+                chatInput.style.height = 'auto';
+                chatInput.style.height = (chatInput.scrollHeight) + 'px';
+            }
+
+            function checkAdminStatus() {
+                if (isAdminLoggedIn) {
+                    adminIndicator.style.display = 'flex';
+                    adminLogoutBtn.style.display = 'flex';
+                    knowledgePanel.style.display = 'flex';
+                    toggleKnowledgeBtn.innerHTML = '<i class="fas fa-times"></i> Fermer la base';
+                    
+                    // Activer les boutons d'édition sur les messages
+                    document.querySelectorAll('.message-actions').forEach(actions => {
+                        actions.style.display = 'flex';
+                    });
+                    
+                    // Activer les boutons d'édition sur les Q&A
+                    document.querySelectorAll('.qa-actions').forEach(actions => {
+                        actions.style.display = 'flex';
+                    });
+                } else {
+                    adminIndicator.style.display = 'none';
+                    adminLogoutBtn.style.display = 'none';
+                    knowledgePanel.style.display = 'none';
+                    toggleKnowledgeBtn.innerHTML = '<i class="fas fa-database"></i> Base de connaissances';
+                    
+                    // Désactiver les boutons d'édition sur les messages
+                    document.querySelectorAll('.message-actions').forEach(actions => {
+                        actions.style.display = 'none';
+                    });
+                    
+                    // Désactiver les boutons d'édition sur les Q&A
+                    document.querySelectorAll('.qa-actions').forEach(actions => {
+                        actions.style.display = 'none';
+                    });
+                    
+                    // Vérifier si l'utilisateur essaie d'accéder à la page admin directement
+                    if (window.location.pathname.includes('admin') || 
+                        (toggleKnowledgeBtn && toggleKnowledgeBtn.clicked)) {
+                        showAdminLoginModal();
+                    }
+                }
+            }
+
+            function toggleKnowledgePanel() {
+                if (!isAdminLoggedIn) {
+                    showAdminLoginModal();
+                    return;
+                }
+                
+                if (knowledgePanel.style.display === 'flex') {
+                    knowledgePanel.style.display = 'none';
+                    toggleKnowledgeBtn.innerHTML = '<i class="fas fa-database"></i> Base de connaissances';
+                } else {
+                    knowledgePanel.style.display = 'flex';
+                    toggleKnowledgeBtn.innerHTML = '<i class="fas fa-times"></i> Fermer la base';
+                }
+            }
+
+            function showAdminLoginModal() {
+                adminLoginModal.style.display = 'flex';
+                adminUsername.value = '';
+                adminPassword.value = '';
+            }
+
+            function hideAdminLoginModal() {
+                adminLoginModal.style.display = 'none';
+            }
+
+            function adminLogin() {
+                const username = adminUsername.value;
+                const password = adminPassword.value;
+                
+                if (username === adminCredentials.username && password === adminCredentials.password) {
+                    isAdminLoggedIn = true;
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    checkAdminStatus();
+                    hideAdminLoginModal();
+                    alert('Connexion administrateur réussie !');
+                } else {
+                    alert('Nom d\'utilisateur ou mot de passe incorrect.');
+                }
+            }
+
+            function adminLogout() {
+                isAdminLoggedIn = false;
+                localStorage.removeItem('adminLoggedIn');
+                checkAdminStatus();
+                alert('Déconnexion administrateur réussie.');
+            }
+
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message === '') return;
+
+                // Ajouter le message de l'utilisateur
+                addMessage(message, 'user');
+                chatInput.value = '';
+                autoResizeTextarea();
+
+                // Simuler une réponse du bot après un délai
+                setTimeout(() => {
+                    const botResponse = generateBotResponse(message);
+                    addMessage(botResponse, 'bot');
+                }, 1000);
+            }
+
+            function addMessage(content, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                messageDiv.innerHTML = `
+                    <div class="message-content">${content}</div>
+                    <div class="message-time">${time}</div>
+                    <div class="message-actions" style="${isAdminLoggedIn ? 'display: flex;' : 'display: none;'}">
+                        <button class="action-btn edit-btn" title="Modifier">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-btn" title="Supprimer">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Ajouter les événements pour les boutons d'édition
+                if (isAdminLoggedIn) {
+                    const editBtn = messageDiv.querySelector('.edit-btn');
+                    const deleteBtn = messageDiv.querySelector('.delete-btn');
+                    
+                    editBtn.addEventListener('click', () => editMessage(messageDiv));
+                    deleteBtn.addEventListener('click', () => deleteMessage(messageDiv));
+                }
+            }
+
+            function generateBotResponse(userMessage) {
+                // Rechercher dans la base de connaissances
+                for (const qa of knowledgeBase) {
+                    if (userMessage.toLowerCase().includes(qa.question.toLowerCase()) || 
+                        qa.question.toLowerCase().includes(userMessage.toLowerCase())) {
+                        return qa.answer;
+                    }
+                }
+                
+                // Réponses par défaut
+                const defaultResponses = [
+                    "Je ne suis pas sûr de comprendre votre question. Pouvez-vous la reformuler ?",
+                    "Je n'ai pas encore appris à répondre à cette question. Essayez de poser votre question différemment.",
+                    "Désolé, je n'ai pas d'information sur ce sujet pour le moment.",
+                    "Je suis encore en apprentissage. Pouvez-vous être plus précis dans votre question ?"
+                ];
+                
+                return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+            }
+
+            function editMessage(messageDiv) {
+                const content = messageDiv.querySelector('.message-content').textContent;
+                editMessageContent.value = content;
+                currentEditingMessage = messageDiv;
+                editModal.style.display = 'flex';
+            }
+
+            function hideEditModal() {
+                editModal.style.display = 'none';
+                currentEditingMessage = null;
+            }
+
+            function saveEditedMessage() {
+                if (currentEditingMessage) {
+                    currentEditingMessage.querySelector('.message-content').textContent = editMessageContent.value;
+                    hideEditModal();
+                }
+            }
+
+            function deleteMessage(messageDiv) {
+                if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
+                    messageDiv.remove();
+                }
+            }
+
+            function showQaForm() {
+                qaForm.style.display = 'block';
+                document.getElementById('new-question').value = '';
+                document.getElementById('new-answer').value = '';
+                currentEditingQa = null;
+            }
+
+            function hideQaForm() {
+                qaForm.style.display = 'none';
+                currentEditingQa = null;
+            }
+
+            function saveQa() {
+                const question = document.getElementById('new-question').value.trim();
+                const answer = document.getElementById('new-answer').value.trim();
+                
+                if (question === '' || answer === '') {
+                    alert('Veuillez remplir tous les champs.');
+                    return;
+                }
+                
+                if (currentEditingQa) {
+                    // Modifier une Q&A existante
+                    currentEditingQa.question = question;
+                    currentEditingQa.answer = answer;
+                } else {
+                    // Ajouter une nouvelle Q&A
+                    knowledgeBase.push({ question, answer });
+                }
+                
+                saveKnowledgeBase();
+                loadKnowledgeBase();
+                hideQaForm();
+            }
+
+            function loadKnowledgeBase() {
+                const knowledgeContent = document.getElementById('knowledge-content');
+                
+                // Garder le formulaire
+                const qaForm = document.getElementById('qa-form');
+                
+                // Vider le contenu sauf le formulaire
+                knowledgeContent.innerHTML = '';
+                knowledgeContent.appendChild(qaForm);
+                
+                // Ajouter chaque Q&A
+                knowledgeBase.forEach((qa, index) => {
+                    const qaItem = document.createElement('div');
+                    qaItem.className = 'qa-item';
+                    qaItem.innerHTML = `
+                        <div class="qa-question">
+                            <span>${qa.question}</span>
+                        </div>
+                        <div class="qa-answer">
+                            ${qa.answer}
+                        </div>
+                        <div class="qa-actions" style="${isAdminLoggedIn ? 'display: flex;' : 'display: none;'}">
+                            <button class="btn btn-secondary edit-qa">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn btn-danger delete-qa">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </button>
+                        </div>
+                    `;
+                    
+                    knowledgeContent.appendChild(qaItem);
+                    
+                    // Ajouter les événements
+                    const editBtn = qaItem.querySelector('.edit-qa');
+                    const deleteBtn = qaItem.querySelector('.delete-qa');
+                    
+                    editBtn.addEventListener('click', () => editQa(index, qaItem));
+                    deleteBtn.addEventListener('click', () => deleteQa(index));
+                });
+            }
+
+            function editQa(index, qaItem) {
+                const qa = knowledgeBase[index];
+                document.getElementById('new-question').value = qa.question;
+                document.getElementById('new-answer').value = qa.answer;
+                qaForm.style.display = 'block';
+                currentEditingQa = qa;
+                
+                // Faire défiler jusqu'au formulaire
+                qaForm.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            function deleteQa(index) {
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette question et sa réponse ?')) {
+                    knowledgeBase.splice(index, 1);
+                    saveKnowledgeBase();
+                    loadKnowledgeBase();
+                }
+            }
+
+            function saveKnowledgeBase() {
+                localStorage.setItem('knowledgeBase', JSON.stringify(knowledgeBase));
+            }
+
+            // Exposer les fonctions globalement si nécessaire
+            window.adminLogout = adminLogout;
+        });
+    </script>
+</body>
+
+</html>

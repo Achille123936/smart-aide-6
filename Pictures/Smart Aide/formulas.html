@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formules Mathématiques - EduBot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --correct-color: #4ade80;
+            --incorrect-color: #f87171;
+            --math-color: #e63946;
+            --physics-color: #2a9d8f;
+            --chemistry-color: #e9c46a;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .nav-tab {
+            padding: 8px 16px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+        
+        .back-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+        
+        .back-button i {
+            margin-right: 8px;
+        }
+        
+        .formulas-content {
+            padding: 30px;
+        }
+        
+        .formulas-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+        
+        .formulas-title h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .formulas-title p {
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+        
+        /* Recherche et filtres */
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .category-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 10px 16px;
+            background: #f8f9fa;
+            color: var(--dark-color);
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .category-btn.math.active {
+            background: var(--math-color);
+            border-color: var(--math-color);
+        }
+        
+        .category-btn.physics.active {
+            background: var(--physics-color);
+            border-color: var(--physics-color);
+        }
+        
+        .category-btn.chemistry.active {
+            background: var(--chemistry-color);
+            border-color: var(--chemistry-color);
+        }
+        
+        /* Grille des formules */
+        .formulas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .formula-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .formula-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .formula-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .formula-name {
+            font-size: 1.3rem;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+        
+        .formula-category {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .category-math {
+            background-color: #ffeaea;
+            color: var(--math-color);
+        }
+        
+        .category-physics {
+            background-color: #e8f7f4;
+            color: var(--physics-color);
+        }
+        
+        .category-chemistry {
+            background-color: #fdf6e3;
+            color: var(--chemistry-color);
+        }
+        
+        .formula-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .formula-equation {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .formula-description {
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .formula-variables {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .variables-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+        }
+        
+        .variable {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .variable-name {
+            font-weight: 500;
+        }
+        
+        .variable-desc {
+            color: #6c757d;
+            text-align: right;
+        }
+        
+        .formula-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .formula-btn {
+            padding: 8px 16px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .formula-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .formula-btn.secondary {
+            background: #6c757d;
+        }
+        
+        .formula-btn.favorite {
+            background: transparent;
+            color: #6c757d;
+            border: 1px solid #e9ecef;
+        }
+        
+        .formula-btn.favorite.active {
+            background: #fff0f0;
+            color: var(--incorrect-color);
+            border-color: var(--incorrect-color);
+        }
+        
+        /* Section de catégories */
+        .categories-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: var(--primary-color);
+        }
+        
+        /* Quick Access */
+        .quick-access {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .quick-access-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .quick-access-item:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .quick-access-item:hover .quick-access-icon {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        .quick-access-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .quick-access-text {
+            font-weight: 500;
+        }
+        
+        /* Modal de détail */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .close-modal:hover {
+            color: var(--dark-color);
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .modal-equation {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+        }
+        
+        .modal-description {
+            color: #6c757d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .modal-variables {
+            margin-bottom: 20px;
+        }
+        
+        .modal-examples {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .examples-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        .example {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .example:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .example-problem {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .example-solution {
+            color: #6c757d;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .formulas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .back-button {
+                align-self: center;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .category-filter {
+                justify-content: center;
+            }
+            
+            .quick-access-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .formula-actions {
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+            
+            .formula-btn {
+                justify-content: center;
+            }
+        }
+        
+        /* Style pour les formules avec KaTeX */
+        .katex-formula {
+            font-size: 1.3rem !important;
+        }
+        
+        /* Section des formules favorites */
+        .favorites-section {
+            margin-bottom: 40px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #e9ecef;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1><i class="fas fa-square-root-variable"></i> EduBot Formules</h1>
+                <div class="nav-tabs">
+                    <a href="quiz.html" class="nav-tab">
+                        <i class="fas fa-question-circle"></i> Quiz
+                    </a>
+                    <a href="exercises.html" class="nav-tab">
+                        <i class="fas fa-pen-fancy"></i> Exercices
+                    </a>
+                    <a href="#" class="nav-tab active">
+                        <i class="fas fa-square-root-variable"></i> Formules
+                    </a>
+                    <a href="exams.html" class="nav-tab">
+                        <i class="fas fa-graduation-cap"></i> Examens
+                    </a>
+                    <a href="admin.html" class="nav-tab">
+                        <i class="fas fa-cog"></i> Administration
+                    </a>
+                </div>
+            </div>
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Retour à l'Accueil
+            </a>
+        </div>
+
+        <div class="formulas-content">
+            <div class="formulas-title">
+                <h1>Formules Mathématiques et Scientifiques</h1>
+                <p>Découvrez et apprenez les formules essentielles pour réussir vos examens</p>
+            </div>
+
+            <!-- Accès rapide -->
+            <div class="quick-access">
+                <h2 class="section-title"><i class="fas fa-bolt"></i> Accès Rapide</h2>
+                <div class="quick-access-grid">
+                    <div class="quick-access-item" data-category="math">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="quick-access-text">Algèbre</div>
+                    </div>
+                    <div class="quick-access-item" data-category="math">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-shapes"></i>
+                        </div>
+                        <div class="quick-access-text">Géométrie</div>
+                    </div>
+                    <div class="quick-access-item" data-category="math">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="quick-access-text">Analyse</div>
+                    </div>
+                    <div class="quick-access-item" data-category="physics">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="quick-access-text">Physique</div>
+                    </div>
+                    <div class="quick-access-item" data-category="chemistry">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="quick-access-text">Chimie</div>
+                    </div>
+                    <div class="quick-access-item" id="show-favorites">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="quick-access-text">Mes Favoris</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recherche et filtres -->
+            <div class="search-container">
+                <input type="text" class="search-input" id="search-formulas" placeholder="Rechercher une formule...">
+                <div class="category-filter">
+                    <button class="category-btn active" data-category="all">
+                        <i class="fas fa-layer-group"></i> Toutes
+                    </button>
+                    <button class="category-btn math" data-category="math">
+                        <i class="fas fa-calculator"></i> Mathématiques
+                    </button>
+                    <button class="category-btn physics" data-category="physics">
+                        <i class="fas fa-atom"></i> Physique
+                    </button>
+                    <button class="category-btn chemistry" data-category="chemistry">
+                        <i class="fas fa-flask"></i> Chimie
+                    </button>
+                </div>
+            </div>
+
+            <!-- Section des formules favorites -->
+            <div class="favorites-section" id="favorites-section">
+                <h2 class="section-title"><i class="fas fa-star"></i> Mes Formules Favorites</h2>
+                <div class="formulas-grid" id="favorites-grid">
+                    <!-- Les formules favorites seront chargées ici -->
+                </div>
+                <div class="empty-state" id="empty-favorites">
+                    <i class="fas fa-star"></i>
+                    <h3>Aucune formule favorite</h3>
+                    <p>Ajoutez des formules à vos favoris en cliquant sur l'icône étoile</p>
+                </div>
+            </div>
+
+            <!-- Section des formules par catégorie -->
+            <div id="formulas-by-category">
+                <!-- Mathématiques -->
+                <div class="categories-section" id="math-section">
+                    <h2 class="section-title"><i class="fas fa-calculator"></i> Mathématiques</h2>
+                    <div class="formulas-grid" id="math-formulas">
+                        <!-- Les formules de mathématiques seront chargées dynamiquement -->
+                    </div>
+                </div>
+
+                <!-- Physique -->
+                <div class="categories-section" id="physics-section">
+                    <h2 class="section-title"><i class="fas fa-atom"></i> Physique</h2>
+                    <div class="formulas-grid" id="physics-formulas">
+                        <!-- Les formules de physique seront chargées dynamiquement -->
+                    </div>
+                </div>
+
+                <!-- Chimie -->
+                <div class="categories-section" id="chemistry-section">
+                    <h2 class="section-title"><i class="fas fa-flask"></i> Chimie</h2>
+                    <div class="formulas-grid" id="chemistry-formulas">
+                        <!-- Les formules de chimie seront chargées dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de détail de formule -->
+    <div class="modal" id="formula-detail-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-formula-name">Détails de la formule</h3>
+                <button class="close-modal" id="close-detail-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-equation" id="modal-formula-equation">
+                    <!-- L'équation sera chargée dynamiquement -->
+                </div>
+                <div class="modal-description" id="modal-formula-description">
+                    <!-- La description sera chargée dynamiquement -->
+                </div>
+                <div class="modal-variables" id="modal-formula-variables">
+                    <!-- Les variables seront chargées dynamiquement -->
+                </div>
+                <div class="modal-examples">
+                    <h4 class="examples-title">Exemples d'application</h4>
+                    <div id="modal-formula-examples">
+                        <!-- Les exemples seront chargés dynamiquement -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="formula-btn secondary" id="close-modal-btn">Fermer</button>
+                <button class="formula-btn" id="practice-formula-btn">
+                    <i class="fas fa-pen-fancy"></i> S'exercer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Éléments DOM
+            const searchInput = document.getElementById('search-formulas');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const quickAccessItems = document.querySelectorAll('.quick-access-item');
+            const showFavoritesBtn = document.getElementById('show-favorites');
+            const favoritesSection = document.getElementById('favorites-section');
+            const favoritesGrid = document.getElementById('favorites-grid');
+            const emptyFavorites = document.getElementById('empty-favorites');
+            const formulasByCategory = document.getElementById('formulas-by-category');
+            
+            // Sections de catégories
+            const mathSection = document.getElementById('math-section');
+            const physicsSection = document.getElementById('physics-section');
+            const chemistrySection = document.getElementById('chemistry-section');
+            
+            // Containers de formules
+            const mathFormulasContainer = document.getElementById('math-formulas');
+            const physicsFormulasContainer = document.getElementById('physics-formulas');
+            const chemistryFormulasContainer = document.getElementById('chemistry-formulas');
+            
+            // Modal
+            const formulaDetailModal = document.getElementById('formula-detail-modal');
+            const modalFormulaName = document.getElementById('modal-formula-name');
+            const modalFormulaEquation = document.getElementById('modal-formula-equation');
+            const modalFormulaDescription = document.getElementById('modal-formula-description');
+            const modalFormulaVariables = document.getElementById('modal-formula-variables');
+            const modalFormulaExamples = document.getElementById('modal-formula-examples');
+            const closeDetailModal = document.getElementById('close-detail-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const practiceFormulaBtn = document.getElementById('practice-formula-btn');
+            
+            // Variables
+            let currentCategory = 'all';
+            let currentFormula = null;
+            let favoriteFormulas = JSON.parse(localStorage.getItem('favoriteFormulas')) || [];
+            
+            // Données des formules
+            const formulasData = [
+                // Mathématiques - Algèbre
+                {
+                    id: 1,
+                    name: 'Équation du second degré',
+                    category: 'math',
+                    subcategory: 'algèbre',
+                    equation: 'ax^2 + bx + c = 0',
+                    solution: 'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}',
+                    description: 'Formule pour résoudre les équations quadratiques de la forme ax² + bx + c = 0',
+                    variables: [
+                        { symbol: 'a', description: 'Coefficient du terme quadratique' },
+                        { symbol: 'b', description: 'Coefficient du terme linéaire' },
+                        { symbol: 'c', description: 'Terme constant' },
+                        { symbol: 'Δ', description: 'Discriminant (b² - 4ac)' }
+                    ],
+                    examples: [
+                        {
+                            problem: 'Résoudre x² - 5x + 6 = 0',
+                            solution: 'Δ = (-5)² - 4×1×6 = 1, x = (5 ± 1)/2, donc x₁ = 3, x₂ = 2'
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: 'Identités remarquables',
+                    category: 'math',
+                    subcategory: 'algèbre',
+                    equation: '(a + b)^2 = a^2 + 2ab + b^2',
+                    description: 'Développement du carré d\'une somme',
+                    variables: [
+                        { symbol: 'a, b', description: 'Nombres réels' }
+                    ],
+                    examples: [
+                        {
+                            problem: 'Développer (x + 3)²',
+                            solution: 'x² + 2×x×3 + 3² = x² + 6x + 9'
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    name: 'Théorème de Pythagore',
+                    category: 'math',
+                    subcategory: 'géométrie',
+                    equation: 'a^2 + b^2 = c^2',
+                    description: 'Relation entre les côtés d\'un triangle rectangle',
+                    variables: [
+                        { symbol: 'a, b', description: 'Longueurs des côtés de l\'angle droit' },
+                        { symbol: 'c', description: 'Longueur de l\'hypoténuse' }
+                    ],
+                    examples: [
+                        {
+                            problem: 'Triangle rectangle avec a=3, b=4, trouver c',
+                            solution: 'c² = 3² + 4² = 9 + 16 = 25, donc c = 5'
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    name: 'Aire d\'un cercle',
+                    category: 'math',
+                    subcategory: 'géométrie',
+                    equation: 'A = \\pi r^2',
+                    description: 'Calcul de l\'aire d\'un cercle à partir de son rayon',
+                    variables: [
+                        { symbol: 'r', description: 'Rayon du cercle' },
+                        { symbol: 'π', description: 'Constante pi ≈ 3.14159' }
+                    ],
+                    examples: [
+                        {
+                            problem: 'Cercle de rayon 5 cm',
+                            solution: 'A = π × 5² = 25π ≈ 78.54 cm²'
+                        }
+                    ]
+                },
+                {
+                    id: 5,
+                    name: 'Dérivée d\'une fonction',
+                    category: 'math',
+                    subcategory: 'analyse',
+                    equation: "f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}",
+                    description: 'Définition de la dérivée comme limite du taux d\'accroissement',
+                    variables: [
+                        { symbol: 'f(x)', description: 'Fonction dérivable' },
+                        { symbol: "f'(x)", description: 'Dérivée de la fonction' }
+                    ],
+                    examples: [
+                        {
+                            problem: 'Dériver f(x) = x²',
+                            solution: "f'(x) = 2x"
+                        }
+                    ]
+                },
+                
+                // Physique
+                {
+                    id: 6,
+                    name: 'Loi de Newton',
+                    category: 'physics',
+                    subcategory: 'mécanique',
+                    equation: 'F = m \\times a',
+                    description: 'Deuxième loi de Newton : relation entre force, masse et accélération',
+                    variables: [
+                        { symbol: 'F', description: 'Force en newtons (N)' },
+                        { symbol: 'm', description: 'Masse en kilogrammes (kg)' },
+                        { symbol: 'a', description: 'Accélération en m/s²' }
+                    ],
+                    examples: [
+                        {
+                            problem: 'Objet de 2 kg avec accélération 3 m/s²',
+                            solution: 'F = 2 × 3 = 6 N'
+                        }
+                    ]
+                },
+                {
+                    id: 7,
+                    name: 'Énergie cinétique',
+                    category: 'physics',
+                    subcategory: 'énergie',
+                    equation: 'E_c = \\frac{1}{2} m v^2',
+                    description: 'Énergie due au mouvement d\'un objet',
+                    variables: [
+                        { symbol: 'E_c', description: 'Énergie cinétique en joules (J)' },
+                        { symbol: 'm', description: 'Masse en kilogrammes (kg)' },
+                        { symbol: 'v', description: 'Vitesse en m/s' }
+                    ],
+                    examples: [
+                        {
+                            problem: 'Voiture de 1000 kg à 20 m/s',
+                            solution: 'E_c = 0.5 × 1000 × 20² = 200,000 J'
+                        }
+                    ]
+                },
+                {
+                    id: 8,
+                    name: 'Loi d\'Ohm',
+                    category: 'physics',
+                    subcategory: 'électricité',
+                    equation: 'U = R \\times I',
+                    description: 'Relation entre tension, résistance et intensité',
+                    variables: [
+                        { symbol: 'U', description: 'Tension en volts (V)' },
+                        { symbol: 'R', description: 'Résistance en ohms (Ω)' },
+                        { symbol: 'I', description: 'Intensité en ampères (A)' }
+                    ],
+                    examples: [
+                        {
+                            problem: 'Résistance de 10Ω avec intensité 2A',
+                            solution: 'U = 10 × 2 = 20V'
+                        }
+                    ]
+                },
+                
+                // Chimie
+                {
+                    id: 9,
+                    name: 'Loi des gaz parfaits',
+                    category: 'chemistry',
+                    subcategory: 'thermodynamique',
+                    equation: 'P V = n R T',
+                    description: 'Relation entre pression, volume, quantité et température d\'un gaz',
+                    variables: [
+                        { symbol: 'P', description: 'Pression en pascals (Pa)' },
+                        { symbol: 'V', description: 'Volume en m³' },
+                        { symbol: 'n', description: 'Quantité de matière en moles' },
+                        { symbol: 'R', description: 'Constante des gaz parfaits' },
+                        { symbol: 'T', description: 'Température en kelvins (K)' }
+                    ],
+                    examples: [
+                        {
+                            problem: '1 mole de gaz à 300K dans 22.4L',
+                            solution: 'P = (1 × 8.314 × 300) / 0.0224 ≈ 111,000 Pa'
+                        }
+                    ]
+                },
+                {
+                    id: 10,
+                    name: 'Concentration molaire',
+                    category: 'chemistry',
+                    subcategory: 'solutions',
+                    equation: 'C = \\frac{n}{V}',
+                    description: 'Calcul de la concentration d\'une solution',
+                    variables: [
+                        { symbol: 'C', description: 'Concentration en mol/L' },
+                        { symbol: 'n', description: 'Quantité de matière en moles' },
+                        { symbol: 'V', description: 'Volume en litres' }
+                    ],
+                    examples: [
+                        {
+                            problem: '0.5 mole de sel dans 2L d\'eau',
+                            solution: 'C = 0.5 / 2 = 0.25 mol/L'
+                        }
+                    ]
+                }
+            ];
+
+            // Initialisation
+            initializeApp();
+
+            function initializeApp() {
+                setupEventListeners();
+                renderAllFormulas();
+                updateFavoritesDisplay();
+            }
+
+            function setupEventListeners() {
+                // Recherche
+                searchInput.addEventListener('input', performSearch);
+                
+                // Filtres par catégorie
+                categoryBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const category = this.getAttribute('data-category');
+                        filterByCategory(category);
+                    });
+                });
+                
+                // Accès rapide
+                quickAccessItems.forEach(item => {
+                    if (item.id !== 'show-favorites') {
+                        item.addEventListener('click', function() {
+                            const category = this.getAttribute('data-category');
+                            filterByCategory(category);
+                            
+                            // Mettre à jour le filtre actif
+                            categoryBtns.forEach(btn => {
+                                if (btn.getAttribute('data-category') === category) {
+                                    btn.classList.add('active');
+                                } else {
+                                    btn.classList.remove('active');
+                                }
+                            });
+                        });
+                    }
+                });
+                
+                // Afficher les favoris
+                showFavoritesBtn.addEventListener('click', showFavorites);
+                
+                // Modal
+                closeDetailModal.addEventListener('click', () => {
+                    formulaDetailModal.style.display = 'none';
+                });
+                closeModalBtn.addEventListener('click', () => {
+                    formulaDetailModal.style.display = 'none';
+                });
+                practiceFormulaBtn.addEventListener('click', practiceFormula);
+                
+                // Fermer le modal en cliquant à l'extérieur
+                window.addEventListener('click', (e) => {
+                    if (e.target === formulaDetailModal) {
+                        formulaDetailModal.style.display = 'none';
+                    }
+                });
+            }
+
+            function renderAllFormulas() {
+                renderFormulasByCategory('math', mathFormulasContainer);
+                renderFormulasByCategory('physics', physicsFormulasContainer);
+                renderFormulasByCategory('chemistry', chemistryFormulasContainer);
+            }
+
+            function renderFormulasByCategory(category, container) {
+                container.innerHTML = '';
+                
+                const filteredFormulas = formulasData.filter(formula => formula.category === category);
+                
+                if (filteredFormulas.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <h3>Aucune formule trouvée</h3>
+                            <p>Les formules de cette catégorie seront ajoutées prochainement</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                filteredFormulas.forEach(formula => {
+                    const formulaElement = createFormulaCard(formula);
+                    container.appendChild(formulaElement);
+                });
+                
+                // Render KaTeX formulas after adding to DOM
+                renderMathInElement(container);
+            }
+
+            function createFormulaCard(formula) {
+                const formulaElement = document.createElement('div');
+                formulaElement.className = 'formula-card';
+                formulaElement.setAttribute('data-id', formula.id);
+                formulaElement.setAttribute('data-category', formula.category);
+                
+                const isFavorite = favoriteFormulas.includes(formula.id);
+                const favoriteClass = isFavorite ? 'active' : '';
+                
+                formulaElement.innerHTML = `
+                    <div class="formula-header">
+                        <div>
+                            <h3 class="formula-name">${formula.name}</h3>
+                            <span class="formula-category category-${formula.category}">${formula.subcategory}</span>
+                        </div>
+                    </div>
+                    <div class="formula-content">
+                        <div class="formula-equation">
+                            ${formula.equation}
+                        </div>
+                        <p class="formula-description">${formula.description}</p>
+                        <div class="formula-variables">
+                            <div class="variables-title">Variables :</div>
+                            ${formula.variables.map(variable => `
+                                <div class="variable">
+                                    <span class="variable-name">${variable.symbol}</span>
+                                    <span class="variable-desc">${variable.description}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="formula-actions">
+                            <button class="formula-btn secondary view-formula-btn" data-id="${formula.id}">
+                                <i class="fas fa-eye"></i> Détails
+                            </button>
+                            <button class="formula-btn favorite ${favoriteClass}" data-id="${formula.id}">
+                                <i class="fas fa-star"></i> Favori
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Ajouter les écouteurs d'événements
+                const viewBtn = formulaElement.querySelector('.view-formula-btn');
+                viewBtn.addEventListener('click', function() {
+                    const formulaId = parseInt(this.getAttribute('data-id'));
+                    showFormulaDetails(formulaId);
+                });
+                
+                const favoriteBtn = formulaElement.querySelector('.favorite');
+                favoriteBtn.addEventListener('click', function() {
+                    const formulaId = parseInt(this.getAttribute('data-id'));
+                    toggleFavorite(formulaId, this);
+                });
+                
+                return formulaElement;
+            }
+
+            function showFormulaDetails(formulaId) {
+                currentFormula = formulasData.find(f => f.id === formulaId);
+                if (!currentFormula) return;
+                
+                modalFormulaName.textContent = currentFormula.name;
+                modalFormulaEquation.innerHTML = currentFormula.equation;
+                modalFormulaDescription.textContent = currentFormula.description;
+                
+                // Variables
+                modalFormulaVariables.innerHTML = `
+                    <h4 class="variables-title">Variables et constantes :</h4>
+                    ${currentFormula.variables.map(variable => `
+                        <div class="variable">
+                            <span class="variable-name">${variable.symbol}</span>
+                            <span class="variable-desc">${variable.description}</span>
+                        </div>
+                    `).join('')}
+                `;
+                
+                // Exemples
+                modalFormulaExamples.innerHTML = '';
+                currentFormula.examples.forEach(example => {
+                    const exampleElement = document.createElement('div');
+                    exampleElement.className = 'example';
+                    exampleElement.innerHTML = `
+                        <div class="example-problem">${example.problem}</div>
+                        <div class="example-solution">${example.solution}</div>
+                    `;
+                    modalFormulaExamples.appendChild(exampleElement);
+                });
+                
+                formulaDetailModal.style.display = 'flex';
+                
+                // Render KaTeX in modal
+                renderMathInElement(modalFormulaEquation);
+            }
+
+            function toggleFavorite(formulaId, button) {
+                const index = favoriteFormulas.indexOf(formulaId);
+                
+                if (index === -1) {
+                    // Ajouter aux favoris
+                    favoriteFormulas.push(formulaId);
+                    button.classList.add('active');
+                } else {
+                    // Retirer des favoris
+                    favoriteFormulas.splice(index, 1);
+                    button.classList.remove('active');
+                }
+                
+                // Sauvegarder dans le localStorage
+                localStorage.setItem('favoriteFormulas', JSON.stringify(favoriteFormulas));
+                
+                // Mettre à jour l'affichage des favoris
+                updateFavoritesDisplay();
+            }
+
+            function updateFavoritesDisplay() {
+                favoritesGrid.innerHTML = '';
+                
+                if (favoriteFormulas.length === 0) {
+                    emptyFavorites.classList.remove('hidden');
+                    favoritesGrid.classList.add('hidden');
+                } else {
+                    emptyFavorites.classList.add('hidden');
+                    favoritesGrid.classList.remove('hidden');
+                    
+                    favoriteFormulas.forEach(formulaId => {
+                        const formula = formulasData.find(f => f.id === formulaId);
+                        if (formula) {
+                            const formulaElement = createFormulaCard(formula);
+                            favoritesGrid.appendChild(formulaElement);
+                        }
+                    });
+                    
+                    // Render KaTeX formulas in favorites
+                    renderMathInElement(favoritesGrid);
+                }
+            }
+
+            function showFavorites() {
+                favoritesSection.classList.remove('hidden');
+                formulasByCategory.classList.add('hidden');
+                
+                // Mettre à jour les boutons de filtre
+                categoryBtns.forEach(btn => {
+                    if (btn.getAttribute('data-category') === 'all') {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                currentCategory = 'favorites';
+            }
+
+            function filterByCategory(category) {
+                currentCategory = category;
+                
+                favoritesSection.classList.add('hidden');
+                formulasByCategory.classList.remove('hidden');
+                
+                // Mettre à jour les boutons actifs
+                categoryBtns.forEach(btn => {
+                    if (btn.getAttribute('data-category') === category) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                if (category === 'all') {
+                    mathSection.classList.remove('hidden');
+                    physicsSection.classList.remove('hidden');
+                    chemistrySection.classList.remove('hidden');
+                } else {
+                    mathSection.classList.toggle('hidden', category !== 'math');
+                    physicsSection.classList.toggle('hidden', category !== 'physics');
+                    chemistrySection.classList.toggle('hidden', category !== 'chemistry');
+                }
+                
+                // Appliquer aussi la recherche si un terme est saisi
+                performSearch();
+            }
+
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                // Filtrer pour chaque catégorie
+                ['math', 'physics', 'chemistry'].forEach(category => {
+                    const container = document.getElementById(`${category}-formulas`);
+                    const formulas = container.querySelectorAll('.formula-card');
+                    
+                    formulas.forEach(formula => {
+                        const name = formula.querySelector('.formula-name').textContent.toLowerCase();
+                        const description = formula.querySelector('.formula-description').textContent.toLowerCase();
+                        
+                        if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                            formula.classList.remove('hidden');
+                        } else {
+                            formula.classList.add('hidden');
+                        }
+                    });
+                });
+            }
+
+            function practiceFormula() {
+                if (currentFormula) {
+                    alert(`Exercice pratique pour la formule: ${currentFormula.name}\n\nCette fonctionnalité sera disponible prochainement!`);
+                    formulaDetailModal.style.display = 'none';
+                }
+            }
+
+            // Fonction pour rendre les formules Math avec KaTeX
+            function renderMathInElement(element) {
+                renderMathInElement(element, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
