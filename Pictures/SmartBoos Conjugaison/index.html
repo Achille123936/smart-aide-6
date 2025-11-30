@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduBot Pro - Assistant Pédagogique Intelligent</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --info-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-secondary: linear-gradient(135deg, #7209b7 0%, #560bad 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: var(--dark-color);
+        }
+        
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        /* Header amélioré */
+        .header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 30px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><polygon points="0,0 1000,50 1000,100 0,100"/></svg>');
+            background-size: cover;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.3rem;
+            padding: 8px;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--warning-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .search-bar {
+            max-width: 600px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+        
+        /* Navigation améliorée */
+        .nav-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-tab {
+            padding: 12px 24px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .admin-indicator {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: none;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Contenu principal amélioré */
+        .main-content {
+            padding: 40px 30px;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .welcome-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .welcome-section p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 25px;
+            line-height: 1.6;
+        }
+        
+        /* Grille de fonctionnalités améliorée */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-primary);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .chat-icon {
+            background: var(--gradient-primary);
+        }
+        
+        .quiz-icon {
+            background: var(--gradient-secondary);
+        }
+        
+        .exercises-icon {
+            background: linear-gradient(45deg, #4cc9f0, #4895ef);
+        }
+        
+        .formulas-icon {
+            background: linear-gradient(45deg, #560bad, #7209b7);
+        }
+        
+        .exam-icon {
+            background: linear-gradient(45deg, #f72585, #b5179e);
+        }
+        
+        .admin-icon {
+            background: linear-gradient(45deg, #ff9e00, #ff6b00);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        .feature-card p {
+            color: #6c757d;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        .feature-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .feature-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .feature-link.admin {
+            background: linear-gradient(to right, #ff9e00, #ff6b00);
+        }
+        
+        /* Nouvelles sections */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .progress-section, .quick-tools {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .progress-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .progress-item {
+            margin-bottom: 15px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .tool-card {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .tool-card:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+        
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Section statistiques améliorée */
+        .stats-section {
+            background: linear-gradient(to right, #fdfcfb 0%, #e2d1c3 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .stats-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--dark-color);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        /* Actions rapides améliorées */
+        .quick-actions {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .games-icon {
+            background: linear-gradient(45deg, #ff6b00, #ff9e00);
+        }
+        .quick-actions h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--dark-color);
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .action-btn {
+            padding: 15px 25px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            min-width: 200px;
+            justify-content: center;
+        }
+        
+        .action-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .action-btn.admin {
+            background: linear-gradient(to right, #ff9e00, #ff6b00);
+        }
+        
+        /* Section notifications */
+        .notifications-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+        
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+            transition: var(--transition);
+        }
+        
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .notification-content {
+            flex-grow: 1;
+        }
+        
+        .notification-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        /* Footer amélioré */
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 20px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            color: #6c757d;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Modal de connexion admin */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--dark-color);
+        }
+        
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .modal-btn {
+            padding: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        
+        .modal-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .action-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            .nav-tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            .nav-tab {
+                flex-shrink: 0;
+            }
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="top-bar">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <div>Bienvenue, <strong>Étudiant</strong></div>
+                            <div class="admin-indicator" id="admin-indicator">
+                                <i class="fas fa-user-shield"></i> Mode Administrateur
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification-bell" id="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <div class="notification-badge">3</div>
+                    </div>
+                </div>
+                
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>EduBot Pro</h1>
+                        <p>Votre compagnon intelligent pour réussir vos études</p>
+                    </div>
+                </div>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="global-search" placeholder="Rechercher des cours, exercices, formules...">
+                </div>
+                
+                <!-- Navigation intégrée -->
+                <div class="nav-container">
+                    <div class="nav-tabs">
+                        <a href="index.html" class="nav-tab active">
+                            <i class="fas fa-home"></i> Accueil
+                        </a>
+                        <a href="quiz.html" class="nav-tab" id="quiz-tab">
+                            <i class="fas fa-brain"></i> Quiz
+                        </a>
+                        <a href="exercises.html" class="nav-tab" id="exercises-tab">
+                            <i class="fas fa-pen-fancy"></i> Exercices
+                        </a>
+                        <a href="formulas.html" class="nav-tab" id="formulas-tab">
+                            <i class="fas fa-square-root-variable"></i> Formules
+                        </a>
+                        <a href="exam.html" class="nav-tab" id="exam-tab">
+                            <i class="fas fa-graduation-cap"></i> Examens
+                        </a>
+                        <a href="admin.html" class="nav-tab" id="admin-tab">
+                            <i class="fas fa-cog"></i> Administration
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="welcome-section">
+                <h2>Bienvenue sur EduBot Pro</h2>
+                <p>Découvrez une expérience d'apprentissage personnalisée avec des outils intelligents adaptés à votre rythme et à vos objectifs académiques.</p>
+            </div>
+
+            <!-- Tableau de bord -->
+            <div class="dashboard-grid">
+                <div class="progress-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-chart-line"></i> Votre Progression
+                    </h3>
+                    <div class="progress-bars">
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Mathématiques</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%; background: var(--primary-color);"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Physique</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%; background: var(--accent-color);"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Chimie</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%; background: var(--info-color);"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>Informatique</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%; background: var(--success-color);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quick-tools">
+                    <h3 class="section-title">
+                        <i class="fas fa-tools"></i> Outils Rapides
+                    </h3>
+                    <div class="tools-grid">
+                        <div class="tool-card" id="calculator-tool">
+                            <div class="tool-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div>Calculatrice</div>
+                        </div>
+                        <div class="tool-card" id="converter-tool">
+                            <div class="tool-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div>Convertisseur</div>
+                        </div>
+                        <div class="tool-card" id="notes-tool">
+                            <div class="tool-icon">
+                                <i class="fas fa-sticky-note"></i>
+                            </div>
+                            <div>Mes Notes</div>
+                        </div>
+                        <div class="tool-card" id="schedule-tool">
+                            <div class="tool-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>Emploi du temps</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fonctionnalités principales -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon chat-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Assistant IA</h3>
+                    <p>Posez vos questions et obtenez des réponses personnalisées sur tous les sujets académiques avec notre intelligence artificielle avancée.</p>
+                    <a href="chat.html" class="feature-link" id="chat-link">Ouvrir l'Assistant</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon quiz-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Quiz Interactifs</h3>
+                    <p>Testez vos connaissances avec nos quiz personnalisés par matière et niveau de difficulté. Obtenez des feedbacks détaillés.</p>
+                    <a href="quiz.html" class="feature-link" id="quiz-link">Démarrer un Quiz</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon games-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Jeux Éducatifs</h3>
+                    <p>Apprenez en vous amusant avec nos jeux interactifs de géographie, conjugaison, mathématiques et bien plus encore.</p>
+                    <a href="games.html" class="feature-link" id="games-link">Voir les Jeux</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon exercises-icon">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <h3>Exercices Pratiques</h3>
+                    <p>Renforcez vos compétences avec des exercices interactifs et des problèmes à résoudre avec correction automatique.</p>
+                    <a href="exercises.html" class="feature-link" id="exercises-link">Voir les Exercices</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon formulas-icon">
+                        <i class="fas fa-square-root-variable"></i>
+                    </div>
+                    <h3>Formules Mathématiques</h3>
+                    <p>Accédez à une bibliothèque complète de formules mathématiques avec explications détaillées et exemples d'application.</p>
+                    <a href="formulas.html" class="feature-link" id="formulas-link">Explorer les Formules</a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon exam-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Simulation d'Examens</h3>
+                    <p>Préparez-vous aux examens avec des simulations réalistes et des tests chronométrés. Analysez vos performances.</p>
+                    <a href="exam.html" class="feature-link" id="exam-link">Commencer un Examen</a>
+                </div>
+
+                <div class="feature-card" id="admin-card">
+                    <div class="feature-icon admin-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Administration</h3>
+                    <p>Gérez le contenu pédagogique, créez des quiz et suivez les progrès des utilisateurs avec des outils avancés.</p>
+                    <a href="admin.html" class="feature-link admin" id="admin-link">Accéder au Panel</a>
+                </div>
+            </div>
+
+            <!-- Statistiques -->
+            <div class="stats-section">
+                <h2>Vos Statistiques d'Apprentissage</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">12h</div>
+                        <div class="stat-label">Temps d'étude cette semaine</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">85%</div>
+                        <div class="stat-label">Moyenne aux quiz</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Exercices complétés</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Badges obtenus</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Examens simulés</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Jours de suite</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="notifications-section">
+                <h3 class="section-title">
+                    <i class="fas fa-bell"></i> Dernières Notifications
+                </h3>
+                <div class="notification-list">
+                    <div class="notification-item">
+                        <div class="notification-icon" style="background: var(--primary-color);">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div>Nouveau badge débloqué: Expert en Mathématiques</div>
+                            <div class="notification-time">Il y a 2 heures</div>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon" style="background: var(--accent-color);">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div>Rappel: Examen de Physique prévu demain</div>
+                            <div class="notification-time">Il y a 5 heures</div>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon" style="background: var(--info-color);">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div>Nouveaux exercices disponibles en Chimie</div>
+                            <div class="notification-time">Il y a 1 jour</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions rapides -->
+            <div class="quick-actions">
+                <h2>Actions Rapides</h2>
+                <div class="action-buttons">
+                    <a href="quiz.html" class="action-btn" id="quick-quiz">
+                        <i class="fas fa-puzzle-piece"></i> Quiz de révision
+                    </a>
+                    <a href="exercises.html" class="action-btn" id="quick-exercise">
+                        <i class="fas fa-dumbbell"></i> Exercice du jour
+                    </a>
+                    <a href="exam.html" class="action-btn" id="quick-exam">
+                        <i class="fas fa-clock"></i> Test rapide (5 min)
+                    </a>
+                    <a href="study-plan.html" class="action-btn" id="study-plan">
+                        <i class="fas fa-tasks"></i> Plan d'étude
+                    </a>
+                    <a href="admin.html" class="action-btn admin" id="admin-quick" style="display: none;">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard Admin
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-content">
+                <div>
+                    <p>© 2023 EduBot Pro - Tous droits réservés | Système d'apprentissage intelligent</p>
+                </div>
+                <div class="footer-links">
+                    <a href="privacy.html">Confidentialité</a>
+                    <a href="terms.html">Conditions d'utilisation</a>
+                    <a href="help.html">Aide</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de connexion administrateur -->
+    <div class="modal" id="admin-login-modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Connexion Administrateur</h3>
+            <div class="modal-form">
+                <div class="form-group">
+                    <label class="form-label" for="admin-username">Nom d'utilisateur</label>
+                    <input type="text" class="form-input" id="admin-username" placeholder="Entrez votre nom d'utilisateur">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="admin-password">Mot de passe</label>
+                    <input type="password" class="form-input" id="admin-password" placeholder="Entrez votre mot de passe">
+                </div>
+                <button class="modal-btn" id="admin-login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Se connecter
+                </button>
+                <div class="modal-actions">
+                    <button class="action-btn secondary" id="cancel-admin-login">
+                        Annuler
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Éléments DOM
+            const adminIndicator = document.getElementById('admin-indicator');
+            const adminCard = document.getElementById('admin-card');
+            const adminLink = document.getElementById('admin-link');
+            const adminQuick = document.getElementById('admin-quick');
+            const adminLoginModal = document.getElementById('admin-login-modal');
+            const adminLoginBtn = document.getElementById('admin-login-btn');
+            const cancelAdminLogin = document.getElementById('cancel-admin-login');
+            const adminUsername = document.getElementById('admin-username');
+            const adminPassword = document.getElementById('admin-password');
+            const navTabs = document.querySelectorAll('.nav-tab');
+            const featureLinks = document.querySelectorAll('.feature-link');
+            const actionButtons = document.querySelectorAll('.action-btn');
+            const notificationBell = document.getElementById('notification-bell');
+            const globalSearch = document.getElementById('global-search');
+            const toolCards = document.querySelectorAll('.tool-card');
+
+            // Variables
+            let isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+
+            // Informations de connexion administrateur
+            const adminCredentials = {
+                username: "admin",
+                password: "admin123"
+            };
+
+            // Initialisation
+            checkAdminStatus();
+            setupEventListeners();
+            initializeAnimations();
+
+            // Fonctions d'initialisation
+            function setupEventListeners() {
+                // Navigation par onglets
+                navTabs.forEach(tab => {
+                    tab.addEventListener('click', function(e) {
+                        const tabId = this.id.replace('-tab', '');
+                        
+                        if (tabId === 'admin' && !isAdminLoggedIn) {
+                            e.preventDefault();
+                            showAdminLoginModal();
+                            return;
+                        }
+                        
+                        // Pour les autres pages, la navigation normale se fait via les href
+                    });
+                });
+
+                // Liens des fonctionnalités
+                featureLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        const pageId = this.id.replace('-link', '');
+                        
+                        if (pageId === 'admin' && !isAdminLoggedIn) {
+                            e.preventDefault();
+                            showAdminLoginModal();
+                            return;
+                        }
+                        
+                        // Pour les autres pages, la navigation normale se fait via les href
+                    });
+                });
+
+                // Boutons d'action rapide
+                actionButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        const actionId = this.id;
+                        
+                        if (actionId === 'admin-quick' && !isAdminLoggedIn) {
+                            e.preventDefault();
+                            showAdminLoginModal();
+                            return;
+                        }
+                        
+                        // Pour les autres actions, la navigation normale se fait via les href
+                    });
+                });
+
+                // Outils rapides
+                toolCards.forEach(tool => {
+                    tool.addEventListener('click', function() {
+                        const toolId = this.id;
+                        handleToolAction(toolId);
+                    });
+                });
+
+                // Connexion administrateur
+                adminLoginBtn.addEventListener('click', adminLogin);
+                cancelAdminLogin.addEventListener('click', hideAdminLoginModal);
+
+                // Fermer la modal en cliquant à l'extérieur
+                adminLoginModal.addEventListener('click', function(e) {
+                    if (e.target === adminLoginModal) {
+                        hideAdminLoginModal();
+                    }
+                });
+
+                // Notification bell
+                notificationBell.addEventListener('click', function() {
+                    alert('Vous avez 3 nouvelles notifications');
+                });
+
+                // Recherche globale
+                globalSearch.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch(this.value);
+                    }
+                });
+            }
+
+            function initializeAnimations() {
+                // Animation des barres de progression
+                const progressFills = document.querySelectorAll('.progress-fill');
+                progressFills.forEach(fill => {
+                    const width = fill.style.width;
+                    fill.style.width = '0%';
+                    setTimeout(() => {
+                        fill.style.width = width;
+                    }, 500);
+                });
+
+                // Animation des cartes au chargement
+                const featureCards = document.querySelectorAll('.feature-card');
+                featureCards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100 + (index * 100));
+                });
+
+                // Animation des statistiques
+                animateStatistics();
+            }
+
+            function animateStatistics() {
+                const statValues = document.querySelectorAll('.stat-value');
+                
+                statValues.forEach(stat => {
+                    const originalText = stat.textContent;
+                    let value = 0;
+                    
+                    if (originalText.includes('%')) {
+                        value = parseInt(originalText);
+                        animateValue(stat, 0, value, 1500, '%');
+                    } else if (originalText.includes('h')) {
+                        value = parseInt(originalText);
+                        animateValue(stat, 0, value, 1500, 'h');
+                    } else {
+                        value = parseInt(originalText);
+                        animateValue(stat, 0, value, 1500);
+                    }
+                });
+            }
+
+            function animateValue(element, start, end, duration, suffix = '') {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const value = Math.floor(progress * (end - start) + start);
+                    element.textContent = value + suffix;
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        element.textContent = end + suffix;
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            function checkAdminStatus() {
+                if (isAdminLoggedIn) {
+                    adminIndicator.style.display = 'flex';
+                    adminQuick.style.display = 'flex';
+                } else {
+                    adminIndicator.style.display = 'none';
+                    adminQuick.style.display = 'none';
+                }
+            }
+
+            function showAdminLoginModal() {
+                adminLoginModal.style.display = 'flex';
+                adminUsername.value = '';
+                adminPassword.value = '';
+            }
+
+            function hideAdminLoginModal() {
+                adminLoginModal.style.display = 'none';
+            }
+
+            function adminLogin() {
+                const username = adminUsername.value;
+                const password = adminPassword.value;
+                
+                if (username === adminCredentials.username && password === adminCredentials.password) {
+                    isAdminLoggedIn = true;
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    checkAdminStatus();
+                    hideAdminLoginModal();
+                    alert('Connexion administrateur réussie !');
+                    // Redirection vers la page admin
+                    window.location.href = 'admin.html';
+                } else {
+                    alert('Nom d\'utilisateur ou mot de passe incorrect.');
+                }
+            }
+
+            function handleToolAction(tool) {
+                const tools = {
+                    'calculator-tool': 'Ouverture de la calculatrice scientifique...',
+                    'converter-tool': 'Ouverture du convertisseur d\'unités...',
+                    'notes-tool': 'Ouverture de vos notes personnelles...',
+                    'schedule-tool': 'Consultation de votre emploi du temps...'
+                };
+                
+                alert(tools[tool] || 'Outil ouvert');
+            }
+
+            function performSearch(query) {
+                if (query.trim() !== '') {
+                    alert(`Recherche de: "${query}"\n\nRésultats de recherche simulés...`);
+                }
+            }
+
+            // Fonction de déconnexion admin (pourrait être ajoutée dans le panel admin)
+            function adminLogout() {
+                isAdminLoggedIn = false;
+                localStorage.removeItem('adminLoggedIn');
+                checkAdminStatus();
+                alert('Déconnexion administrateur réussie.');
+            }
+
+            // Exposer la fonction de déconnexion globalement (pour usage dans d'autres pages)
+            window.adminLogout = adminLogout;
+        });
+    </script>
+</body>
+
+</html>
